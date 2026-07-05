@@ -220,6 +220,8 @@ label.lb{font-size:12px;color:var(--indigo-soft);display:block;margin-bottom:4px
       <select class="txt" id="subHito"></select></div>
   </div>
 
+  <div class="crit" id="subCrit"></div>
+
   <div class="step" style="font-size:15px"><span class="n" style="width:22px;height:22px;font-size:10px">+</span>Subcriterios propios <span style="font-family:var(--ui);font-size:12px;font-weight:400;color:var(--indigo-soft)">(los que tú defines)</span></div>
   <div class="subrow"><input class="txt" id="subCritInput" placeholder="Ej.: 'El endpoint responde en menos de 300ms'"><button id="subCritAdd">Añadir</button></div>
   <div class="sublist" id="subCritList"></div>
@@ -536,6 +538,29 @@ const up3=makeUploader('subDrop','subFileInput','subFiles','subWarn');
 const subHitoSel=document.getElementById('subHito');
 HITOS.forEach(h=>{const o=document.createElement('option');o.value=h.id;o.textContent=h.id+' · '+h.nombre;subHitoSel.appendChild(o);});
 let subCrits=[];
+let subHeredados=[];
+function renderSubHeredados(){
+  const crit=document.getElementById('subCrit');
+  const h=HITOS.find(x=>x.id===subHitoSel.value);
+  subHeredados=[];
+  if(!h){crit.className='crit';crit.innerHTML='';return;}
+  crit.className='crit on';
+  crit.innerHTML=`<div class="ct">Marca los criterios del hito que este colaborador está trabajando — ${h.id}</div>`;
+  h.items.forEach((txt)=>{
+    const row=document.createElement('label');row.className='critchk';
+    row.innerHTML=`<input type="checkbox"><span class="box">${CHKSVG}</span><span class="txt">${txt}</span>`;
+    row.querySelector('input').onchange=e=>{
+      row.classList.toggle('on',e.target.checked);
+      if(e.target.checked)subHeredados.push(txt);else subHeredados=subHeredados.filter(c=>c!==txt);
+      document.getElementById('subHeredCount').textContent=subHeredados.length?`${subHeredados.length} criterio(s) del hito marcado(s)`:'Ninguno marcado — se evaluará contra todo el hito';
+    };
+    crit.appendChild(row);
+  });
+  const cc=document.createElement('div');cc.className='critcount';cc.id='subHeredCount';cc.textContent='Ninguno marcado — se evaluará contra todo el hito';
+  crit.appendChild(cc);
+}
+subHitoSel.addEventListener('change',renderSubHeredados);
+renderSubHeredados();
 document.getElementById('subCritAdd').onclick=addSubCrit;
 document.getElementById('subCritInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addSubCrit();}});
 function addSubCrit(){
@@ -560,7 +585,8 @@ document.getElementById('subRun').onclick=async()=>{
   const btn=document.getElementById('subRun');btn.disabled=true;btn.textContent='Auditando…';
   const notes=document.getElementById('subNotes').value.trim();
   const content=filesToContent(up3.files);
-  let manifest=`AUDITORÍA DE SUBEQUIPO — Colaborador: ${quien}\nHito: ${hito.id} · ${hito.nombre}\n\nCRITERIOS DEL HITO (heredados):\n${hito.items.map((c,i)=>(i+1)+'. '+c).join('\n')}\n`;
+  const heredadosList=subHeredados.length?subHeredados:hito.items;
+  let manifest=`AUDITORÍA DE SUBEQUIPO — Colaborador: ${quien}\nHito: ${hito.id} · ${hito.nombre}\n\nCRITERIOS DEL HITO QUE ESTE COLABORADOR ESTÁ TRABAJANDO:\n${heredadosList.map((c,i)=>(i+1)+'. '+c).join('\n')}\n`;
   if(subCrits.length)manifest+=`\nSUBCRITERIOS ESPECÍFICOS DEFINIDOS POR EL DEV LÍDER:\n${subCrits.map((c)=>'• '+c).join('\n')}\n`;
   manifest+=`\nARCHIVOS (${up3.files.length}): ${up3.files.map(f=>f.name).join(', ')}\n`;
   if(notes)manifest+=`\nNOTAS DEL DEV LÍDER:\n${notes}\n`;
@@ -579,7 +605,7 @@ document.getElementById('subRun').onclick=async()=>{
     document.getElementById('subResult').classList.add('on');
     document.getElementById('subResult').scrollIntoView({behavior:'smooth',block:'start'});
     const rec={fecha:new Date().toISOString(),colaborador:quien,hito:hito.id+' · '+hito.nombre,
-      subcriterios:subCrits,archivos:up3.files.map(f=>f.name),notas:notes,veredicto:v.t,cls:v.cls,detalle:out};
+      heredados:subHeredados,subcriterios:subCrits,archivos:up3.files.map(f=>f.name),notas:notes,veredicto:v.t,cls:v.cls,detalle:out};
     if(SB_READY){try{await fetch(SUPABASE_URL+"/rest/v1/subauditorias",{method:"POST",headers:{...SB_HEADERS,"Prefer":"return-minimal"},body:JSON.stringify(rec)});}catch(e){}}
     loadSubHist();
   }catch(e){
