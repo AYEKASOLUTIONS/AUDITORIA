@@ -24,7 +24,6 @@ body{background:var(--paper);color:var(--indigo);font-family:var(--ui);font-size
 .rise{animation:rise .55s cubic-bezier(.2,.7,.2,1) both}
 .d1{animation-delay:.08s}.d2{animation-delay:.16s}
 
-/* Header */
 .hdr{background:linear-gradient(135deg,var(--indigo) 0%,var(--indigo-deep) 100%);color:var(--paper);
  border-radius:14px;padding:24px 26px 20px;position:relative;overflow:hidden;box-shadow:var(--sh-lift)}
 .hdr::before{content:'';position:absolute;inset:10px;border:1px dashed rgba(245,243,236,.28);border-radius:9px;pointer-events:none}
@@ -33,12 +32,18 @@ body{background:var(--paper);color:var(--indigo);font-family:var(--ui);font-size
 .hdr h1 em{font-style:italic;color:var(--thread)}
 .hdr .sub{font-size:13px;color:rgba(245,243,236,.75);max-width:560px}
 
-.step{font-family:var(--disp);font-size:19px;font-weight:600;margin:30px 0 12px;display:flex;align-items:baseline;gap:12px}
+.tabs{display:flex;gap:6px;margin:22px 0 24px;flex-wrap:wrap;border-bottom:2px solid var(--indigo);padding:0 4px}
+.tabs button{font-family:var(--ui);font-weight:600;font-size:13.5px;padding:10px 18px;cursor:pointer;color:var(--indigo-soft);
+ background:transparent;border:2px solid transparent;border-bottom:none;border-radius:10px 10px 0 0;position:relative;top:2px;transition:all .18s}
+.tabs button:hover{color:var(--indigo);background:rgba(35,43,82,.05)}
+.tabs button.on{background:var(--indigo);color:var(--paper);border-color:var(--indigo)}
+.view{display:none}.view.on{display:block;animation:rise .4s cubic-bezier(.2,.7,.2,1) both}
+
+.step{font-family:var(--disp);font-size:19px;font-weight:600;margin:26px 0 12px;display:flex;align-items:baseline;gap:12px}
 .step .n{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--thread);border:1.5px solid var(--thread);
  border-radius:50%;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;transform:translateY(3px);flex-shrink:0}
 .step::after{content:'';flex:1;border-top:2px dashed var(--line);transform:translateY(-4px)}
 
-/* Hito selector */
 .hsel{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
 .hbtn{background:var(--card);border:2px solid var(--line);border-radius:11px;padding:13px 14px;cursor:pointer;
  text-align:left;font-family:var(--ui);color:var(--indigo);transition:all .18s;box-shadow:var(--sh)}
@@ -46,20 +51,29 @@ body{background:var(--paper);color:var(--indigo);font-family:var(--ui);font-size
 .hbtn.on{border-color:var(--thread);background:var(--amber-soft)}
 .hbtn .tag{font-family:var(--mono);font-size:9.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--indigo-soft)}
 .hbtn .nm{font-weight:700;font-size:13px;margin-top:3px;line-height:1.3}
+
 .crit{background:var(--card);border-radius:11px;box-shadow:var(--sh);padding:14px 18px;margin-top:12px;font-size:13px;display:none}
 .crit.on{display:block;animation:rise .3s ease both}
-.crit .ct{font-family:var(--mono);font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--indigo-soft);margin-bottom:8px}
-.crit li{margin-left:18px;padding:3px 0;border-bottom:1px dashed var(--line-soft)}
-.crit li:last-child{border:none}
+.crit .ct{font-family:var(--mono);font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--indigo-soft);margin-bottom:10px}
+.critchk{display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--line-soft);align-items:flex-start;cursor:pointer;transition:background .15s;border-radius:6px}
+.critchk:hover{background:rgba(217,164,65,.06)}
+.critchk:last-child{border-bottom:none}
+.critchk .box{width:18px;height:18px;border:2px solid var(--indigo-soft);border-radius:5px;flex-shrink:0;margin-top:1px;
+ display:flex;align-items:center;justify-content:center;transition:all .18s;background:var(--card)}
+.critchk input{display:none}
+.critchk .box svg{opacity:0;transform:scale(.5);transition:all .18s}
+.critchk.on .box{background:var(--emerald);border-color:var(--emerald)}
+.critchk.on .box svg{opacity:1;transform:scale(1)}
+.critchk .txt{font-size:13px}
+.critcount{font-family:var(--mono);font-size:11px;color:var(--emerald);font-weight:600;margin-top:8px}
 
-/* Dropzone */
 .drop{border:2.5px dashed var(--line);border-radius:13px;background:var(--card);padding:34px 20px;text-align:center;
  cursor:pointer;transition:all .2s;box-shadow:var(--sh)}
 .drop:hover,.drop.over{border-color:var(--thread);background:var(--amber-soft);transform:translateY(-2px)}
 .drop .ic{font-size:30px;margin-bottom:6px}
 .drop b{display:block;font-size:15px}
 .drop small{color:var(--indigo-soft);font-size:12px;display:block;margin-top:4px}
-#fileInput{display:none}
+.fileInput{display:none}
 .files{margin-top:12px;display:flex;flex-direction:column;gap:8px}
 .file{background:var(--card);border-radius:10px;box-shadow:var(--sh);padding:10px 14px;display:flex;align-items:center;gap:12px;font-size:13px}
 .file .ext{font-family:var(--mono);font-size:9.5px;font-weight:600;background:var(--indigo);color:var(--paper);
@@ -68,17 +82,21 @@ body{background:var(--paper);color:var(--indigo);font-family:var(--ui);font-size
 .file .sz{font-family:var(--mono);font-size:11px;color:var(--indigo-soft)}
 .file button{border:none;background:none;color:var(--clay);cursor:pointer;font-size:16px;font-weight:700;padding:0 4px}
 
-textarea.notes{width:100%;border:2px solid var(--line);border-radius:11px;background:var(--card);padding:13px 15px;
- font-family:var(--ui);font-size:13.5px;color:var(--indigo);resize:vertical;min-height:74px;box-shadow:var(--sh)}
-textarea.notes:focus{outline:none;border-color:var(--thread)}
+textarea.notes,input.txt,select.txt{width:100%;border:2px solid var(--line);border-radius:11px;background:var(--card);padding:13px 15px;
+ font-family:var(--ui);font-size:13.5px;color:var(--indigo);box-shadow:var(--sh)}
+textarea.notes{resize:vertical;min-height:74px}
+textarea.notes:focus,input.txt:focus,select.txt:focus{outline:none;border-color:var(--thread)}
+.frow{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.frow>*{flex:1;min-width:150px}
+label.lb{font-size:12px;color:var(--indigo-soft);display:block;margin-bottom:4px}
 
 .audit-btn{margin-top:18px;width:100%;border:none;border-radius:12px;background:var(--emerald);color:#fff;
  font-family:var(--ui);font-weight:700;font-size:15.5px;padding:16px;cursor:pointer;letter-spacing:.3px;
  box-shadow:var(--sh-lift);transition:all .2s}
 .audit-btn:hover{background:#0B7550;transform:translateY(-2px)}
 .audit-btn:disabled{background:var(--line);color:var(--indigo-soft);cursor:wait;transform:none}
+.audit-btn.indigo{background:var(--indigo)}.audit-btn.indigo:hover{background:var(--indigo-deep)}
 
-/* Result */
 .result{margin-top:22px;background:var(--card);border-radius:13px;box-shadow:var(--sh-lift);overflow:hidden;display:none}
 .result.on{display:block;animation:rise .4s ease both}
 .verdict{padding:16px 20px;display:flex;align-items:center;gap:14px;color:#fff}
@@ -95,22 +113,31 @@ textarea.notes:focus{outline:none;border-color:var(--thread)}
 .fthread .fq{font-weight:600;margin-top:12px;color:var(--indigo-soft)}
 .fthread .fa{white-space:pre-wrap;margin-top:4px}
 
-/* History */
 .hist{display:flex;flex-direction:column;gap:10px}
 .hcard{background:var(--card);border-radius:11px;box-shadow:var(--sh);padding:13px 16px;cursor:pointer;transition:transform .15s}
 .hcard:hover{transform:translateX(4px)}
 .hcard .top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .badge{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:1px;padding:3px 9px;border-radius:999px;color:#fff}
 .badge.ok{background:var(--emerald)}.badge.obs{background:var(--amber)}.badge.no{background:var(--clay)}
+.badge.alta{background:var(--clay)}.badge.normal{background:var(--indigo-soft)}.badge.baja{background:var(--emerald)}
+.badge.abierto{background:var(--amber)}.badge.resuelto{background:var(--emerald)}
 .hcard .hh{font-weight:700;font-size:13.5px}
 .hcard .hd{font-family:var(--mono);font-size:10.5px;color:var(--indigo-soft);margin-left:auto}
 .hcard .hf{font-size:12px;color:var(--indigo-soft);margin-top:4px}
 .hcard .full{display:none;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:12.5px;white-space:pre-wrap}
 .hcard.open .full{display:block}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.critchip{font-family:var(--mono);font-size:9.5px;background:var(--emerald-soft);color:var(--emerald);padding:2px 8px;border-radius:999px;font-weight:600}
 .empty{text-align:center;color:var(--indigo-soft);font-size:13px;padding:26px;border:2px dashed var(--line);border-radius:12px}
-
 .warn{background:var(--amber-soft);border-radius:10px;padding:11px 15px;font-size:12.5px;margin-top:12px;display:none}
 .warn.on{display:block}
+.intro{font-size:13px;color:var(--indigo-soft);margin-bottom:16px;max-width:640px}
+.subrow{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+.subrow input{flex:1}
+.subrow button{border:none;background:var(--indigo);color:#fff;border-radius:9px;padding:11px 15px;cursor:pointer;font-family:var(--ui);font-weight:600;font-size:13px}
+.sublist{display:flex;flex-direction:column;gap:6px;margin-bottom:8px}
+.subitem{display:flex;gap:10px;align-items:center;background:var(--paper);border-radius:8px;padding:8px 12px;font-size:12.5px}
+.subitem button{margin-left:auto;border:none;background:none;color:var(--clay);cursor:pointer;font-weight:700}
 .foot{text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
  color:var(--indigo-soft);margin-top:46px;opacity:.7}
 @media(max-width:600px){.app{padding:16px 12px 60px}}
@@ -121,64 +148,115 @@ textarea.notes:focus{outline:none;border-color:var(--thread)}
 <div class="app">
 
 <div class="hdr rise">
-  <div class="eyebrow">ERP Uniformes Capri · Control de calidad</div>
+  <div class="eyebrow">ERP Uniformes Capri · Centro de operación Karuna</div>
   <h1>Mesa de <em>Auditoría</em></h1>
-  <div class="sub">Sube aquí los entregables del hito (código, PDFs, capturas, manuales). El auditor los revisa contra los criterios de aceptación oficiales y emite un veredicto con observaciones.</div>
+  <div class="sub">Sube entregables, solicita lo que necesitas de Ayeka/Capri, y audita a tu propio subequipo. Todo queda registrado y visible para Ayeka.</div>
 </div>
 
-<div class="rise d1">
-  <div class="step"><span class="n">1</span>¿A qué hito pertenece la entrega?</div>
+<div class="tabs rise d1">
+  <button class="on" data-v="auditar">Auditar mi entrega</button>
+  <button data-v="req">Solicitar a Ayeka</button>
+  <button data-v="sub">Auditar subequipo</button>
+</div>
+
+<!-- ===== VISTA 1 ===== -->
+<div class="view on" id="v-auditar">
+  <div class="step"><span class="n">1</span>¿A qué hito pertenece?</div>
   <div class="hsel" id="hsel"></div>
   <div class="crit" id="crit"></div>
-</div>
 
-<div class="rise d2">
-  <div class="step"><span class="n">2</span>Sube los archivos de la entrega</div>
+  <div class="step"><span class="n">2</span>Sube los archivos</div>
   <div class="drop" id="drop">
-    <div class="ic">🧵</div>
-    <b>Arrastra archivos aquí o haz clic para elegir</b>
-    <small>Código (.js .py .ts .sql .html …), documentos PDF, imágenes/capturas · máx ~4&nbsp;MB por auditoría</small>
+    <div class="ic">🧵</div><b>Arrastra archivos aquí o haz clic para elegir</b>
+    <small>Código (.js .py .ts .sql .html …), PDF, imágenes/capturas · máx ~4 MB por auditoría</small>
   </div>
-  <input type="file" id="fileInput" multiple>
+  <input type="file" class="fileInput" id="fileInput" multiple>
   <div class="files" id="files"></div>
   <div class="warn" id="warn"></div>
 
   <div class="step"><span class="n">3</span>Notas del desarrollador <span style="font-family:var(--ui);font-size:12px;font-weight:400;color:var(--indigo-soft)">(opcional)</span></div>
-  <textarea class="notes" id="notes" placeholder="Ej.: 'Se entrega avance del POS: módulo de venta y corte de caja. Falta integración con impresora, llega la próxima semana.'"></textarea>
+  <textarea class="notes" id="notes" placeholder="Ej.: 'Avance del POS: módulo de venta y corte de caja. Falta integración con impresora.'"></textarea>
 
   <button class="audit-btn" id="run">Auditar entrega</button>
-</div>
 
-<div class="result" id="result">
-  <div class="verdict" id="verdict"><div><div class="vt" id="vt"></div><div class="vs" id="vs"></div></div></div>
-  <div class="rbody" id="rbody"></div>
-  <div class="fthread" id="fthread"></div>
-  <div class="followup">
-    <input id="fq" placeholder="Pregúntale algo al auditor sobre este veredicto…">
-    <button id="fsend">Preguntar</button>
+  <div class="result" id="result">
+    <div class="verdict" id="verdict"><div><div class="vt" id="vt"></div><div class="vs" id="vs"></div></div></div>
+    <div class="rbody" id="rbody"></div>
+    <div class="fthread" id="fthread"></div>
+    <div class="followup"><input id="fq" placeholder="Pregúntale algo al auditor…"><button id="fsend">Preguntar</button></div>
   </div>
+
+  <div class="step"><span class="n">✎</span>Historial de auditorías</div>
+  <div class="hist" id="hist"><div class="empty">Aún no hay auditorías registradas.</div></div>
 </div>
 
-<div>
-  <div class="step"><span class="n">✎</span>Historial de auditorías</div>
-  <div class="hist" id="hist"><div class="empty">Aún no hay auditorías registradas. La primera aparecerá aquí y será visible para todo el equipo.</div></div>
+<!-- ===== VISTA 2 ===== -->
+<div class="view" id="v-req">
+  <p class="intro">Pide aquí lo que necesitas para avanzar: documentos de Capri, información, accesos o decisiones. Ayeka lo ve en su panel y te responde.</p>
+  <div class="frow">
+    <div><label class="lb">Prioridad</label>
+      <select class="txt" id="reqPrio"><option value="alta">Urgente</option><option value="normal" selected>Normal</option><option value="baja">Puede esperar</option></select></div>
+    <div><label class="lb">Hito relacionado (opcional)</label>
+      <select class="txt" id="reqHito"><option value="">— General —</option></select></div>
+  </div>
+  <label class="lb">¿Qué necesitas?</label>
+  <textarea class="notes" id="reqQue" placeholder="Ej.: 'Necesito el catálogo de productos de Capri en Excel para la migración.'" style="margin-bottom:10px"></textarea>
+  <label class="lb">¿Para qué lo necesitas? (contexto)</label>
+  <textarea class="notes" id="reqPara" placeholder="Ej.: 'Sin esos SKU no puedo poblar el catálogo del POS del Hito 2.'"></textarea>
+  <button class="audit-btn indigo" id="reqSend">Enviar solicitud a Ayeka</button>
+  <div class="warn" id="reqWarn"></div>
+
+  <div class="step"><span class="n">✎</span>Mis solicitudes</div>
+  <div class="hist" id="reqHist"><div class="empty">Aún no has enviado solicitudes.</div></div>
+</div>
+
+<!-- ===== VISTA 3 ===== -->
+<div class="view" id="v-sub">
+  <p class="intro">Audita el trabajo de tu propio equipo (QA, operativos). Hereda los criterios del hito y puedes añadir subcriterios tuyos. Ayeka ve estos resultados por separado.</p>
+  <div class="frow">
+    <div><label class="lb">¿Quién entregó?</label>
+      <input class="txt" id="subQuien" placeholder="Nombre del colaborador (QA 1, Operativo 2…)"></div>
+    <div><label class="lb">Hito</label>
+      <select class="txt" id="subHito"></select></div>
+  </div>
+
+  <div class="step" style="font-size:15px"><span class="n" style="width:22px;height:22px;font-size:10px">+</span>Subcriterios propios <span style="font-family:var(--ui);font-size:12px;font-weight:400;color:var(--indigo-soft)">(los que tú defines)</span></div>
+  <div class="subrow"><input class="txt" id="subCritInput" placeholder="Ej.: 'El endpoint responde en menos de 300ms'"><button id="subCritAdd">Añadir</button></div>
+  <div class="sublist" id="subCritList"></div>
+
+  <div class="step"><span class="n">📎</span>Archivos del colaborador</div>
+  <div class="drop" id="subDrop">
+    <div class="ic">🧵</div><b>Arrastra archivos aquí o haz clic</b>
+    <small>Mismo formato · máx ~4 MB</small>
+  </div>
+  <input type="file" class="fileInput" id="subFileInput" multiple>
+  <div class="files" id="subFiles"></div>
+  <div class="warn" id="subWarn"></div>
+
+  <textarea class="notes" id="subNotes" placeholder="Notas sobre esta entrega del colaborador (opcional)" style="margin-top:12px"></textarea>
+  <button class="audit-btn" id="subRun">Auditar entrega del colaborador</button>
+
+  <div class="result" id="subResult">
+    <div class="verdict" id="subVerdict"><div><div class="vt" id="subVt"></div><div class="vs" id="subVs"></div></div></div>
+    <div class="rbody" id="subRbody"></div>
+  </div>
+
+  <div class="step"><span class="n">✎</span>Historial del subequipo</div>
+  <div class="hist" id="subHist"><div class="empty">Aún no hay auditorías del subequipo.</div></div>
 </div>
 
 <div class="foot">Ayeka Solutions · Mesa de auditoría de entregables · Hilo por hilo</div>
 </div>
 
 <script>
-/* ═══════════════════════════════════════════════════════════════
-   CONFIGURACIÓN SUPABASE  ·  pega aquí tus dos valores
-   (Settings → API en tu proyecto Supabase)
-   ═══════════════════════════════════════════════════════════════ */
-const SUPABASE_URL = "https://ynolkciflandwylpaxbr.supabase.co";      // ej: https://abcdxyz.supabase.co
-const SUPABASE_KEY = "sb_publishable_cFG25Q9nEhGfUiX-3urzTQ_1mHF7E2f";  // la key publishable / anon
-/* ═══════════════════════════════════════════════════════════════ */
+/* CONFIG SUPABASE */
+const SUPABASE_URL = "https://ynolkciflandwylpaxbr.supabase.co";
+const SUPABASE_KEY = "sb_publishable_cFG25Q9nEhGfUiX-3urzTQ_1mHF7E2f";
 const SB_READY = !SUPABASE_URL.includes("PEGA_AQUI") && !SUPABASE_KEY.includes("PEGA_AQUI");
 const SB_HEADERS = {"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY,"Content-Type":"application/json"};
+const FN_URL = SUPABASE_URL+"/functions/v1/auditor";
+const FN_HEADERS = {"Content-Type":"application/json","Authorization":"Bearer "+SUPABASE_KEY,"apikey":SUPABASE_KEY};
 
-/* ============ CRITERIOS OFICIALES (cronograma vigente) ============ */
 const HITOS=[
  {id:"H1",mes:"Julio",nombre:"Gobierno de Datos & M365 + Inicio POS",items:[
   "Inventario completo de archivos Excel entregado por Capri y confirmado",
@@ -230,230 +308,306 @@ const HITOS=[
   "Soporte post Go-Live del Mes 6 con estabilización confirmada"]}
 ];
 
-const AUDITOR_BASE=`Eres el Auditor Técnico de Ayeka Solutions para el proyecto ERP de Uniformes Capri (stack: Microsoft 365 + AWS EC2/RDS PostgreSQL/Redis + POS + RAG con pgvector, CFDI 4.0 México). Auditas las entregas del equipo de desarrollo contra los criterios de aceptación oficiales del hito. Hablas español, tono profesional y directo, sin suavizar problemas pero reconociendo el buen trabajo cuando existe.
+const AUDITOR_BASE=`Eres el Auditor Técnico de Ayeka Solutions para el ERP de Uniformes Capri (stack: Microsoft 365 + AWS EC2/RDS PostgreSQL/Redis + POS + RAG pgvector, CFDI 4.0 México). Auditas entregas contra criterios de aceptación. Español, tono profesional y directo, sin suavizar problemas pero reconociendo lo bueno.
 
-TU MÉTODO:
-1) Revisa CADA archivo entregado: si es código, evalúa calidad, seguridad (inyección SQL, secretos hardcodeados, manejo de errores), estructura y si implementa lo que el criterio pide. Si es PDF/manual, evalúa completitud y claridad. Si es imagen/captura, describe qué evidencia aporta.
-2) Cruza la entrega contra los criterios del hito: cuáles tienen evidencia COMPLETA, cuáles PARCIAL y cuáles SIN EVIDENCIA en lo entregado. No inventes evidencia que no está en los archivos.
-3) Señala riesgos concretos: bugs probables, deuda técnica, faltantes que bloquearían la liberación del pago del hito según el checklist de Capri.
+MÉTODO: 1) Revisa cada archivo (código: calidad, seguridad, si implementa lo pedido; PDF/manual: completitud; imagen: qué evidencia aporta). 2) Cruza contra los criterios marcados: cuáles tienen evidencia COMPLETA, PARCIAL o SIN EVIDENCIA. No inventes evidencia. 3) Señala riesgos, bugs y faltantes que bloquearían la liberación del hito.
 
-FORMATO OBLIGATORIO de tu primera línea:
+FORMATO (primera línea obligatoria):
 VEREDICTO: APROBADO | APROBADO CON OBSERVACIONES | RECHAZADO
-Luego:
-— Resumen (2-3 líneas)
-— Criterios con evidencia completa / parcial / sin evidencia (listas breves)
-— Observaciones técnicas del código (si aplica)
-— Acciones requeridas antes de notificar el hito a Capri (numeradas, concretas)
+Luego: Resumen (2-3 líneas) · Criterios con evidencia completa/parcial/sin evidencia · Observaciones técnicas · Acciones requeridas (numeradas).
+Sé estricto: sin evidencia suficiente NO es aprobable aunque el código sea bueno.`;
 
-Sé estricto: una entrega sin evidencia suficiente de los criterios NO es aprobable, aunque el código sea bueno. Si solo se entrega avance parcial declarado como tal en las notas, evalúa el avance con justicia e indica qué falta para el cierre del hito.`;
+const fmtFecha=d=>new Date(d).toLocaleDateString('es-MX')+' '+new Date(d).toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+const CHKSVG='<svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.5L4 7.5L10 1" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
-/* ============ Estado ============ */
-let hitoSel=null;
-let files=[]; // {name,ext,kind,size,content(base64 o texto),media}
+document.querySelectorAll('.tabs button').forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('on'));
+    document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');document.getElementById('v-'+b.dataset.v).classList.add('on');
+  };
+});
+
 const MAX_TOTAL=4*1024*1024;
-const TXT_EXT=['js','jsx','ts','tsx','py','sql','html','css','json','md','txt','csv','yml','yaml','xml','env','sh','sln','cs','java','php','rb','go','vue'];
+const TXT_EXT=['js','jsx','ts','tsx','py','sql','html','css','json','md','txt','csv','yml','yaml','xml','env','sh','cs','java','php','rb','go','vue'];
 const IMG_EXT={png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg',gif:'image/gif',webp:'image/webp'};
+function readB64(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=()=>rej();r.readAsDataURL(f);});}
+function makeUploader(dropId,inputId,filesId,warnId){
+  const drop=document.getElementById(dropId),input=document.getElementById(inputId),
+        flist=document.getElementById(filesId),warn=document.getElementById(warnId);
+  const store={files:[]};
+  const total=()=>store.files.reduce((s,f)=>s+f.size,0);
+  const sw=m=>{warn.textContent=m;warn.classList.add('on');setTimeout(()=>warn.classList.remove('on'),6000);};
+  async function handle(list){
+    for(const f of list){
+      const ext=f.name.split('.').pop().toLowerCase();
+      if(total()+f.size>MAX_TOTAL){sw(`"${f.name}" excede 4 MB total. Divide la entrega.`);continue;}
+      try{
+        if(ext==='pdf')store.files.push({name:f.name,ext,kind:'pdf',size:f.size,content:await readB64(f)});
+        else if(IMG_EXT[ext])store.files.push({name:f.name,ext,kind:'img',size:f.size,content:await readB64(f),media:IMG_EXT[ext]});
+        else if(TXT_EXT.includes(ext)){let t=await f.text();if(t.length>80000)t=t.slice(0,80000)+"\n[...truncado...]";store.files.push({name:f.name,ext,kind:'txt',size:f.size,content:t});}
+        else{sw(`Formato ".${ext}" no soportado. Sube código, PDF o imágenes.`);continue;}
+      }catch(e){sw(`No se pudo leer "${f.name}".`);}
+    }
+    render();
+  }
+  function render(){
+    flist.innerHTML='';
+    store.files.forEach((f,i)=>{
+      const d=document.createElement('div');d.className='file';
+      d.innerHTML=`<span class="ext">${f.ext.toUpperCase()}</span><span class="fn">${f.name}</span><span class="sz">${(f.size/1024).toFixed(0)} KB</span><button>×</button>`;
+      d.querySelector('button').onclick=()=>{store.files.splice(i,1);render();};
+      flist.appendChild(d);
+    });
+  }
+  drop.onclick=()=>input.click();
+  drop.ondragover=e=>{e.preventDefault();drop.classList.add('over');};
+  drop.ondragleave=()=>drop.classList.remove('over');
+  drop.ondrop=e=>{e.preventDefault();drop.classList.remove('over');handle(e.dataTransfer.files);};
+  input.onchange=()=>handle(input.files);
+  store.reset=()=>{store.files=[];render();};
+  store.sw=sw;
+  return store;
+}
+function filesToContent(files){
+  const c=[];
+  files.forEach(f=>{
+    if(f.kind==='pdf')c.push({type:'document',source:{type:'base64',media_type:'application/pdf',data:f.content}});
+    else if(f.kind==='img')c.push({type:'image',source:{type:'base64',media_type:f.media,data:f.content}});
+  });
+  return c;
+}
+function parseVerdict(out){
+  const first=(out.split('\n')[0]||'').toUpperCase();
+  if(first.includes('RECHAZADO'))return{cls:'no',t:'Rechazado',s:'No cumple los criterios'};
+  if(first.includes('OBSERVACIONES'))return{cls:'obs',t:'Aprobado con observaciones',s:'Cumple en lo esencial, con pendientes'};
+  if(first.includes('APROBADO'))return{cls:'ok',t:'Aprobado',s:'Cumple los criterios auditados'};
+  return{cls:'obs',t:'Revisión',s:'Lee el detalle'};
+}
 
-/* ============ Selector de hito ============ */
+/* VISTA 1 */
+let hitoSel=null, critSel=[];
+const up1=makeUploader('drop','fileInput','files','warn');
 const hsel=document.getElementById('hsel'),crit=document.getElementById('crit');
 HITOS.forEach(h=>{
   const b=document.createElement('button');b.className='hbtn';
   b.innerHTML=`<div class="tag">${h.id} · ${h.mes}</div><div class="nm">${h.nombre}</div>`;
   b.onclick=()=>{
-    document.querySelectorAll('.hbtn').forEach(x=>x.classList.remove('on'));
-    b.classList.add('on');hitoSel=h;
+    document.querySelectorAll('#hsel .hbtn').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');hitoSel=h;critSel=[];
     crit.className='crit on';
-    crit.innerHTML=`<div class="ct">Criterios de aceptación · ${h.id}</div><ul>${h.items.map(i=>`<li>${i}</li>`).join('')}</ul>`;
+    crit.innerHTML=`<div class="ct">Marca los criterios que cubre esta entrega — ${h.id}</div>`;
+    h.items.forEach((txt)=>{
+      const row=document.createElement('label');row.className='critchk';
+      row.innerHTML=`<input type="checkbox"><span class="box">${CHKSVG}</span><span class="txt">${txt}</span>`;
+      row.querySelector('input').onchange=e=>{
+        row.classList.toggle('on',e.target.checked);
+        if(e.target.checked)critSel.push(txt);else critSel=critSel.filter(c=>c!==txt);
+        document.getElementById('critCount').textContent=critSel.length?`${critSel.length} criterio(s) marcado(s)`:'Ninguno marcado — se evaluará contra todo el hito';
+      };
+      crit.appendChild(row);
+    });
+    const cc=document.createElement('div');cc.className='critcount';cc.id='critCount';cc.textContent='Ninguno marcado — se evaluará contra todo el hito';
+    crit.appendChild(cc);
   };
   hsel.appendChild(b);
 });
 
-/* ============ Upload ============ */
-const drop=document.getElementById('drop'),input=document.getElementById('fileInput'),
-      flist=document.getElementById('files'),warn=document.getElementById('warn');
-drop.onclick=()=>input.click();
-drop.ondragover=e=>{e.preventDefault();drop.classList.add('over');};
-drop.ondragleave=()=>drop.classList.remove('over');
-drop.ondrop=e=>{e.preventDefault();drop.classList.remove('over');handleFiles(e.dataTransfer.files);};
-input.onchange=()=>handleFiles(input.files);
-
-function totalSize(){return files.reduce((s,f)=>s+f.size,0);}
-function showWarn(msg){warn.textContent=msg;warn.classList.add('on');setTimeout(()=>warn.classList.remove('on'),6000);}
-
-async function handleFiles(list){
-  for(const f of list){
-    const ext=f.name.split('.').pop().toLowerCase();
-    if(totalSize()+f.size>MAX_TOTAL){showWarn(`"${f.name}" excede el límite total de 4 MB por auditoría. Divide la entrega en varias auditorías.`);continue;}
-    try{
-      if(ext==='pdf'){
-        const b64=await readB64(f);
-        files.push({name:f.name,ext,kind:'pdf',size:f.size,content:b64});
-      }else if(IMG_EXT[ext]){
-        const b64=await readB64(f);
-        files.push({name:f.name,ext,kind:'img',size:f.size,content:b64,media:IMG_EXT[ext]});
-      }else if(TXT_EXT.includes(ext)){
-        let txt=await f.text();
-        if(txt.length>80000){txt=txt.slice(0,80000)+"\n\n[... archivo truncado a 80,000 caracteres para la auditoría ...]";}
-        files.push({name:f.name,ext,kind:'txt',size:f.size,content:txt});
-      }else{
-        showWarn(`Formato ".${ext}" no soportado. Sube código como texto, PDFs o imágenes. Para .docx/.xlsx: exporta a PDF.`);continue;
-      }
-    }catch(e){showWarn(`No se pudo leer "${f.name}".`);}
-  }
-  renderFiles();
-}
-function readB64(f){return new Promise((res,rej)=>{const r=new FileReader();
-  r.onload=()=>res(r.result.split(',')[1]);r.onerror=()=>rej();r.readAsDataURL(f);});}
-function renderFiles(){
-  flist.innerHTML='';
-  files.forEach((f,i)=>{
-    const d=document.createElement('div');d.className='file';
-    d.innerHTML=`<span class="ext">${f.ext.toUpperCase()}</span><span class="fn">${f.name}</span>
-      <span class="sz">${(f.size/1024).toFixed(0)} KB</span><button title="Quitar">×</button>`;
-    d.querySelector('button').onclick=()=>{files.splice(i,1);renderFiles();};
-    flist.appendChild(d);
-  });
-}
-
-/* ============ Auditoría ============ */
-let auditThread=[]; // conversación de seguimiento
-const runBtn=document.getElementById('run'),result=document.getElementById('result'),
-      verdict=document.getElementById('verdict'),vt=document.getElementById('vt'),vs=document.getElementById('vs'),
-      rbody=document.getElementById('rbody'),fthread=document.getElementById('fthread');
-
+let auditThread=[];
+const runBtn=document.getElementById('run'),result=document.getElementById('result');
 runBtn.onclick=async()=>{
-  if(!hitoSel){showWarn('Primero selecciona el hito al que pertenece la entrega (paso 1).');return;}
-  if(files.length===0){showWarn('Sube al menos un archivo para auditar (paso 2).');return;}
-  runBtn.disabled=true;runBtn.textContent='Auditando entrega…';
+  if(!hitoSel){up1.sw('Selecciona el hito (paso 1).');return;}
+  if(up1.files.length===0){up1.sw('Sube al menos un archivo (paso 2).');return;}
+  runBtn.disabled=true;runBtn.textContent='Auditando…';
   const notes=document.getElementById('notes').value.trim();
-
-  const content=[];
-  files.forEach(f=>{
-    if(f.kind==='pdf')content.push({type:'document',source:{type:'base64',media_type:'application/pdf',data:f.content}});
-    else if(f.kind==='img')content.push({type:'image',source:{type:'base64',media_type:f.media,data:f.content}});
-  });
-  let manifest=`ENTREGA A AUDITAR — ${hitoSel.id} (${hitoSel.mes}): ${hitoSel.nombre}\n\nCRITERIOS DE ACEPTACIÓN DEL HITO:\n${hitoSel.items.map((c,i)=>(i+1)+'. '+c).join('\n')}\n\nARCHIVOS ENTREGADOS (${files.length}): ${files.map(f=>f.name).join(', ')}\n`;
-  if(notes)manifest+=`\nNOTAS DEL DESARROLLADOR:\n${notes}\n`;
-  files.filter(f=>f.kind==='txt').forEach(f=>{
-    manifest+=`\n===== ARCHIVO: ${f.name} =====\n${f.content}\n===== FIN ${f.name} =====\n`;
-  });
-  manifest+='\nRealiza la auditoría completa siguiendo tu método y formato obligatorio.';
+  const critList=critSel.length?critSel:hitoSel.items;
+  const content=filesToContent(up1.files);
+  let manifest=`ENTREGA A AUDITAR — ${hitoSel.id} (${hitoSel.mes}): ${hitoSel.nombre}\n\nEL DEV DECLARA QUE ESTA ENTREGA CUBRE ESTOS CRITERIOS:\n${critList.map((c,i)=>(i+1)+'. '+c).join('\n')}\n\nARCHIVOS (${up1.files.length}): ${up1.files.map(f=>f.name).join(', ')}\n`;
+  if(notes)manifest+=`\nNOTAS DEL DEV:\n${notes}\n`;
+  up1.files.filter(f=>f.kind==='txt').forEach(f=>{manifest+=`\n===== ${f.name} =====\n${f.content}\n===== FIN =====\n`;});
+  manifest+='\nAudita SOLO contra los criterios declarados arriba. Sigue tu formato obligatorio.';
   content.push({type:'text',text:manifest});
-
   auditThread=[{role:'user',content}];
   try{
-    const res=await fetch(SUPABASE_URL+"/functions/v1/auditor",{
-      method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_KEY,'apikey':SUPABASE_KEY},
-      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:AUDITOR_BASE,messages:auditThread})
-    });
+    const res=await fetch(FN_URL,{method:'POST',headers:FN_HEADERS,body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:AUDITOR_BASE,messages:auditThread})});
     const data=await res.json();
     const out=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n').trim();
     if(!out)throw new Error('vacío');
     auditThread.push({role:'assistant',content:out});
     showResult(out);
-    await saveAudit(out,notes);
+    await saveAudit(out,notes,critList);
     await loadHistory();
-  }catch(e){
-    showResult('VEREDICTO: ERROR\nNo se pudo completar la auditoría. Revisa tu conexión e intenta de nuevo. Si los archivos son muy grandes, divide la entrega.');
-  }
+  }catch(e){showResult('VEREDICTO: ERROR\nNo se pudo completar. Revisa conexión o divide la entrega.');}
   runBtn.disabled=false;runBtn.textContent='Auditar entrega';
 };
-
-function parseVerdict(out){
-  const first=(out.split('\n')[0]||'').toUpperCase();
-  if(first.includes('RECHAZADO'))return{cls:'no',t:'Rechazado',s:'La entrega no cumple los criterios — ver acciones requeridas'};
-  if(first.includes('OBSERVACIONES'))return{cls:'obs',t:'Aprobado con observaciones',s:'Cumple en lo esencial, con correcciones pendientes'};
-  if(first.includes('APROBADO'))return{cls:'ok',t:'Aprobado',s:'La entrega cumple los criterios auditados'};
-  return{cls:'obs',t:'Revisión',s:'Veredicto no estándar — lee el detalle'};
-}
 function showResult(out){
   const v=parseVerdict(out);
-  verdict.className='verdict '+v.cls;vt.textContent=v.t;vs.textContent=v.s;
-  rbody.textContent=out.split('\n').slice(1).join('\n').trim();
-  fthread.innerHTML='';
-  result.classList.add('on');
-  result.scrollIntoView({behavior:'smooth',block:'start'});
+  document.getElementById('verdict').className='verdict '+v.cls;
+  document.getElementById('vt').textContent=v.t;document.getElementById('vs').textContent=v.s;
+  document.getElementById('rbody').textContent=out.split('\n').slice(1).join('\n').trim();
+  document.getElementById('fthread').innerHTML='';
+  result.classList.add('on');result.scrollIntoView({behavior:'smooth',block:'start'});
 }
-
-/* Seguimiento */
 document.getElementById('fsend').onclick=followUp;
 document.getElementById('fq').addEventListener('keydown',e=>{if(e.key==='Enter')followUp();});
 async function followUp(){
   const inp=document.getElementById('fq');const q=inp.value.trim();if(!q||auditThread.length===0)return;
   const btn=document.getElementById('fsend');btn.disabled=true;inp.value='';
-  const qd=document.createElement('div');qd.className='fq';qd.textContent='→ '+q;fthread.appendChild(qd);
+  const ft=document.getElementById('fthread');
+  const qd=document.createElement('div');qd.className='fq';qd.textContent='→ '+q;ft.appendChild(qd);
   auditThread.push({role:'user',content:q});
   try{
-    const res=await fetch(SUPABASE_URL+"/functions/v1/auditor",{
-      method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_KEY,'apikey':SUPABASE_KEY},
-      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:AUDITOR_BASE,messages:auditThread})
-    });
+    const res=await fetch(FN_URL,{method:'POST',headers:FN_HEADERS,body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:AUDITOR_BASE,messages:auditThread})});
     const data=await res.json();
     const out=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n').trim();
     auditThread.push({role:'assistant',content:out});
-    const ad=document.createElement('div');ad.className='fa';ad.textContent=out;fthread.appendChild(ad);
-  }catch(e){
-    const ad=document.createElement('div');ad.className='fa';ad.textContent='Error de conexión.';fthread.appendChild(ad);
-  }
+    const ad=document.createElement('div');ad.className='fa';ad.textContent=out;ft.appendChild(ad);
+  }catch(e){const ad=document.createElement('div');ad.className='fa';ad.textContent='Error de conexión.';ft.appendChild(ad);}
   btn.disabled=false;
 }
-
-/* ============ Historial (nube Supabase, compartido con el equipo) ============ */
-async function saveAudit(out,notes){
+async function saveAudit(out,notes,critList){
   const v=parseVerdict(out);
-  const rec={fecha:new Date().toISOString(),hito:hitoSel.id+' · '+hitoSel.nombre,
-    archivos:files.map(f=>f.name),notas:notes,veredicto:v.t,cls:v.cls,detalle:out};
-  if(SB_READY){
-    try{
-      const res=await fetch(SUPABASE_URL+"/rest/v1/auditorias",{
-        method:"POST",headers:{...SB_HEADERS,"Prefer":"return-minimal"},
-        body:JSON.stringify({
-          fecha:rec.fecha,hito:rec.hito,archivos:rec.archivos,
-          notas:rec.notas,veredicto:rec.veredicto,cls:rec.cls,detalle:rec.detalle
-        })
-      });
-      if(!res.ok){const t=await res.text();console.error("Supabase insert falló:",res.status,t);
-        showWarn("La auditoría se generó pero no se guardó en la nube (revisa la conexión / configuración).");}
-      return;
-    }catch(e){console.error("Error guardando en Supabase",e);
-      showWarn("La auditoría se generó pero no se pudo guardar en la nube.");return;}
-  }
-  // Fallback local si aún no configuras Supabase
-  try{await window.storage.set('audit:'+Date.now(),JSON.stringify(rec),true);}catch(e){}
+  const rec={fecha:new Date().toISOString(),hito:hitoSel.id+' · '+hitoSel.nombre,criterios:critList,
+    archivos:up1.files.map(f=>f.name),notas:notes,veredicto:v.t,cls:v.cls,detalle:out};
+  if(SB_READY){try{await fetch(SUPABASE_URL+"/rest/v1/auditorias",{method:"POST",headers:{...SB_HEADERS,"Prefer":"return-minimal"},body:JSON.stringify(rec)});}catch(e){}}
 }
-
 async function loadHistory(){
-  const hist=document.getElementById('hist');
-  let records=[];
-  if(SB_READY){
-    try{
-      const res=await fetch(SUPABASE_URL+"/rest/v1/auditorias?select=*&order=fecha.desc&limit=20",{headers:SB_HEADERS});
-      if(res.ok)records=await res.json();
-      else console.error("Supabase select falló:",res.status,await res.text());
-    }catch(e){console.error("Error leyendo de Supabase",e);}
-  }else{
-    try{
-      const r=await window.storage.list('audit:',true);
-      if(r&&r.keys){const keys=r.keys.map(k=>k.key||k).sort().reverse().slice(0,15);
-        for(const k of keys){try{records.push(JSON.parse((await window.storage.get(k,true)).value));}catch(e){}}}
-    }catch(e){}
-  }
-  if(records.length===0)return;
-  hist.innerHTML='';
-  records.forEach(rec=>{
-    const d=new Date(rec.fecha);
-    const archivos=Array.isArray(rec.archivos)?rec.archivos:[];
-    const card=document.createElement('div');card.className='hcard';
-    card.innerHTML=`<div class="top"><span class="badge ${rec.cls}">${rec.veredicto}</span>
-      <span class="hh">${rec.hito}</span>
-      <span class="hd">${d.toLocaleDateString('es-MX')} ${d.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'})}</span></div>
-      <div class="hf">${archivos.length} archivo(s): ${archivos.join(', ')}</div>
-      <div class="full">${rec.detalle}</div>`;
-    card.onclick=()=>card.classList.toggle('open');
-    hist.appendChild(card);
-  });
+  const hist=document.getElementById('hist');if(!SB_READY)return;
+  try{
+    const res=await fetch(SUPABASE_URL+"/rest/v1/auditorias?select=*&order=fecha.desc&limit=20",{headers:SB_HEADERS});
+    if(!res.ok)return;const recs=await res.json();if(recs.length===0)return;
+    hist.innerHTML='';
+    recs.forEach(rec=>{
+      const arch=Array.isArray(rec.archivos)?rec.archivos:[];const crits=Array.isArray(rec.criterios)?rec.criterios:[];
+      const card=document.createElement('div');card.className='hcard';
+      card.innerHTML=`<div class="top"><span class="badge ${rec.cls}">${rec.veredicto}</span><span class="hh">${rec.hito}</span><span class="hd">${fmtFecha(rec.fecha)}</span></div>
+        <div class="hf">${arch.length} archivo(s): ${arch.join(', ')}</div>
+        ${crits.length?`<div class="chips">${crits.map(c=>`<span class="critchip">${c.slice(0,42)}${c.length>42?'…':''}</span>`).join('')}</div>`:''}
+        <div class="full">${rec.detalle}</div>`;
+      card.onclick=()=>card.classList.toggle('open');hist.appendChild(card);
+    });
+  }catch(e){}
 }
 loadHistory();
+
+/* VISTA 2 */
+const reqHitoSel=document.getElementById('reqHito');
+HITOS.forEach(h=>{const o=document.createElement('option');o.value=h.id;o.textContent=h.id+' · '+h.nombre;reqHitoSel.appendChild(o);});
+const reqWarn=document.getElementById('reqWarn');
+function rsw(m){reqWarn.textContent=m;reqWarn.classList.add('on');setTimeout(()=>reqWarn.classList.remove('on'),6000);}
+document.getElementById('reqSend').onclick=async()=>{
+  const que=document.getElementById('reqQue').value.trim();
+  const para=document.getElementById('reqPara').value.trim();
+  const prio=document.getElementById('reqPrio').value;
+  const hito=document.getElementById('reqHito').value;
+  if(!que){rsw('Escribe qué necesitas.');return;}
+  const btn=document.getElementById('reqSend');btn.disabled=true;btn.textContent='Enviando…';
+  const rec={fecha:new Date().toISOString(),prioridad:prio,hito,que,para,estado:'abierto',respuesta:''};
+  if(SB_READY){try{
+    const res=await fetch(SUPABASE_URL+"/rest/v1/requerimientos",{method:"POST",headers:{...SB_HEADERS,"Prefer":"return-minimal"},body:JSON.stringify(rec)});
+    if(!res.ok){rsw('No se pudo enviar. Revisa conexión.');btn.disabled=false;btn.textContent='Enviar solicitud a Ayeka';return;}
+  }catch(e){rsw('Sin conexión.');btn.disabled=false;btn.textContent='Enviar solicitud a Ayeka';return;}}
+  document.getElementById('reqQue').value='';document.getElementById('reqPara').value='';
+  btn.disabled=false;btn.textContent='Enviar solicitud a Ayeka';
+  loadReqs();
+};
+async function loadReqs(){
+  const h=document.getElementById('reqHist');if(!SB_READY)return;
+  try{
+    const res=await fetch(SUPABASE_URL+"/rest/v1/requerimientos?select=*&order=fecha.desc&limit=20",{headers:SB_HEADERS});
+    if(!res.ok)return;const recs=await res.json();if(recs.length===0)return;
+    h.innerHTML='';
+    recs.forEach(r=>{
+      const card=document.createElement('div');card.className='hcard';
+      card.innerHTML=`<div class="top"><span class="badge ${r.prioridad}">${r.prioridad==='alta'?'URGENTE':r.prioridad==='baja'?'PUEDE ESPERAR':'NORMAL'}</span>
+        <span class="badge ${r.estado}">${r.estado==='resuelto'?'RESUELTO':'ABIERTO'}</span>
+        ${r.hito?`<span class="hh">${r.hito}</span>`:''}<span class="hd">${fmtFecha(r.fecha)}</span></div>
+        <div class="hf" style="color:var(--indigo);font-weight:500;margin-top:6px">${r.que}</div>
+        ${r.para?`<div class="hf">Para: ${r.para}</div>`:''}
+        ${r.respuesta?`<div class="full" style="display:block"><b>Respuesta de Ayeka:</b> ${r.respuesta}</div>`:''}`;
+      h.appendChild(card);
+    });
+  }catch(e){}
+}
+loadReqs();
+
+/* VISTA 3 */
+const up3=makeUploader('subDrop','subFileInput','subFiles','subWarn');
+const subHitoSel=document.getElementById('subHito');
+HITOS.forEach(h=>{const o=document.createElement('option');o.value=h.id;o.textContent=h.id+' · '+h.nombre;subHitoSel.appendChild(o);});
+let subCrits=[];
+document.getElementById('subCritAdd').onclick=addSubCrit;
+document.getElementById('subCritInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addSubCrit();}});
+function addSubCrit(){
+  const inp=document.getElementById('subCritInput');const v=inp.value.trim();if(!v)return;
+  subCrits.push(v);inp.value='';renderSubCrits();
+}
+function renderSubCrits(){
+  const l=document.getElementById('subCritList');l.innerHTML='';
+  subCrits.forEach((c,i)=>{
+    const d=document.createElement('div');d.className='subitem';
+    d.innerHTML=`<span>+ ${c}</span><button>×</button>`;
+    d.querySelector('button').onclick=()=>{subCrits.splice(i,1);renderSubCrits();};
+    l.appendChild(d);
+  });
+}
+document.getElementById('subRun').onclick=async()=>{
+  const quien=document.getElementById('subQuien').value.trim();
+  const hitoId=document.getElementById('subHito').value;
+  const hito=HITOS.find(h=>h.id===hitoId);
+  if(!quien){up3.sw('Escribe quién entregó.');return;}
+  if(up3.files.length===0){up3.sw('Sube al menos un archivo.');return;}
+  const btn=document.getElementById('subRun');btn.disabled=true;btn.textContent='Auditando…';
+  const notes=document.getElementById('subNotes').value.trim();
+  const content=filesToContent(up3.files);
+  let manifest=`AUDITORÍA DE SUBEQUIPO — Colaborador: ${quien}\nHito: ${hito.id} · ${hito.nombre}\n\nCRITERIOS DEL HITO (heredados):\n${hito.items.map((c,i)=>(i+1)+'. '+c).join('\n')}\n`;
+  if(subCrits.length)manifest+=`\nSUBCRITERIOS ESPECÍFICOS DEFINIDOS POR EL DEV LÍDER:\n${subCrits.map((c)=>'• '+c).join('\n')}\n`;
+  manifest+=`\nARCHIVOS (${up3.files.length}): ${up3.files.map(f=>f.name).join(', ')}\n`;
+  if(notes)manifest+=`\nNOTAS DEL DEV LÍDER:\n${notes}\n`;
+  up3.files.filter(f=>f.kind==='txt').forEach(f=>{manifest+=`\n===== ${f.name} =====\n${f.content}\n===== FIN =====\n`;});
+  manifest+='\nAudita el trabajo de este colaborador contra los criterios del hito Y los subcriterios específicos. Sigue tu formato obligatorio.';
+  content.push({type:'text',text:manifest});
+  try{
+    const res=await fetch(FN_URL,{method:'POST',headers:FN_HEADERS,body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:AUDITOR_BASE,messages:[{role:'user',content}]})});
+    const data=await res.json();
+    const out=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n').trim();
+    if(!out)throw new Error('vacío');
+    const v=parseVerdict(out);
+    document.getElementById('subVerdict').className='verdict '+v.cls;
+    document.getElementById('subVt').textContent=v.t;document.getElementById('subVs').textContent=v.s+' · '+quien;
+    document.getElementById('subRbody').textContent=out.split('\n').slice(1).join('\n').trim();
+    document.getElementById('subResult').classList.add('on');
+    document.getElementById('subResult').scrollIntoView({behavior:'smooth',block:'start'});
+    const rec={fecha:new Date().toISOString(),colaborador:quien,hito:hito.id+' · '+hito.nombre,
+      subcriterios:subCrits,archivos:up3.files.map(f=>f.name),notas:notes,veredicto:v.t,cls:v.cls,detalle:out};
+    if(SB_READY){try{await fetch(SUPABASE_URL+"/rest/v1/subauditorias",{method:"POST",headers:{...SB_HEADERS,"Prefer":"return-minimal"},body:JSON.stringify(rec)});}catch(e){}}
+    loadSubHist();
+  }catch(e){
+    document.getElementById('subVerdict').className='verdict obs';
+    document.getElementById('subVt').textContent='Error';document.getElementById('subVs').textContent='Revisa conexión';
+    document.getElementById('subRbody').textContent='No se pudo completar la auditoría.';
+    document.getElementById('subResult').classList.add('on');
+  }
+  btn.disabled=false;btn.textContent='Auditar entrega del colaborador';
+};
+async function loadSubHist(){
+  const h=document.getElementById('subHist');if(!SB_READY)return;
+  try{
+    const res=await fetch(SUPABASE_URL+"/rest/v1/subauditorias?select=*&order=fecha.desc&limit=20",{headers:SB_HEADERS});
+    if(!res.ok)return;const recs=await res.json();if(recs.length===0)return;
+    h.innerHTML='';
+    recs.forEach(rec=>{
+      const arch=Array.isArray(rec.archivos)?rec.archivos:[];const sc=Array.isArray(rec.subcriterios)?rec.subcriterios:[];
+      const card=document.createElement('div');card.className='hcard';
+      card.innerHTML=`<div class="top"><span class="badge ${rec.cls}">${rec.veredicto}</span><span class="hh">${rec.colaborador} · ${rec.hito}</span><span class="hd">${fmtFecha(rec.fecha)}</span></div>
+        <div class="hf">${arch.length} archivo(s): ${arch.join(', ')}</div>
+        ${sc.length?`<div class="chips">${sc.map(c=>`<span class="critchip">+ ${c.slice(0,38)}${c.length>38?'…':''}</span>`).join('')}</div>`:''}
+        <div class="full">${rec.detalle}</div>`;
+      card.onclick=()=>card.classList.toggle('open');h.appendChild(card);
+    });
+  }catch(e){}
+}
+loadSubHist();
 </script>
 </body>
 </html>
