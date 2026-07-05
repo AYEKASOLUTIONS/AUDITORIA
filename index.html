@@ -342,8 +342,8 @@ runBtn.onclick=async()=>{
 
   auditThread=[{role:'user',content}];
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',headers:{'Content-Type':'application/json'},
+    const res=await fetch(SUPABASE_URL+"/functions/v1/auditor",{
+      method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_KEY,'apikey':SUPABASE_KEY},
       body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:AUDITOR_BASE,messages:auditThread})
     });
     const data=await res.json();
@@ -384,8 +384,8 @@ async function followUp(){
   const qd=document.createElement('div');qd.className='fq';qd.textContent='→ '+q;fthread.appendChild(qd);
   auditThread.push({role:'user',content:q});
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',headers:{'Content-Type':'application/json'},
+    const res=await fetch(SUPABASE_URL+"/functions/v1/auditor",{
+      method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_KEY,'apikey':SUPABASE_KEY},
       body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:AUDITOR_BASE,messages:auditThread})
     });
     const data=await res.json();
