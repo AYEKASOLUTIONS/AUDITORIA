@@ -261,58 +261,39 @@ const FN_HEADERS = {"Content-Type":"application/json","Authorization":"Bearer "+
 
 const HITOS=[
  {id:"H1",mes:"Julio",nombre:"Gobierno de Datos & M365 + Inicio POS",items:[
-  "Inventario completo de archivos Excel entregado por Capri y confirmado",
-  "Datos migrados a SharePoint — muestra ≥20 registros por categoría correctos",
-  "Sin duplicados evidentes en catálogos de producto migrados",
-  "Estructura de SharePoint revisada y aprobada por el cliente",
-  "Tenant M365 con dominio personalizado de Capri activo",
-  "Entra ID con grupos y acceso condicional demostrado en vivo",
-  "SharePoint accesible al cliente con permisos de administrador",
-  "Documento de arquitectura de datos y diagrama E-R en formato editable",
-  "Acceso al repositorio otorgado al cliente con commits visibles",
-  "Avance del módulo POS demostrable (≥50% funcional)"]},
+  "Inventario de archivos migrados",
+  "Reporte de limpieza y normalización de datos",
+  "Estructura de SharePoint documentada",
+  "Arquitectura de datos y diagrama E-R (formato editable)",
+  "Políticas de gobierno de datos",
+  "Acceso a repositorio con commits visibles desde día 1",
+  "Avance de desarrollo POS"]},
  {id:"H2",mes:"Agosto",nombre:"Tienda e Inventario — POS Funcional",items:[
-  "Ambiente de pruebas con credenciales propias para el cliente",
-  "Alta/edición/búsqueda de productos con ≥50 productos de prueba",
-  "Venta completa en POS: cobro, corte de caja y reporte generado",
-  "Integración con ≥1 dispositivo físico real probada en vivo",
-  "Gestión multi-tienda con transferencias probadas en ≥2 tiendas",
-  "Alertas de stock mínimo funcionando con caso real",
-  "Pruebas piloto en 2–3 tiendas reales con feedback documentado",
-  "Manual técnico entregado y código actualizado en repositorio"]},
+  "Manual técnico del módulo POS e inventario",
+  "Código actualizado en repositorio",
+  "Guía de configuración de hardware periférico",
+  "Reporte de pruebas piloto con feedback de tiendas"]},
  {id:"H3",mes:"Septiembre",nombre:"Gestión de Producción",items:[
-  "OP con explosión de materiales (BOM) probada con ≥2 órdenes",
-  "Área de corte: lotes, consumo de MP y mermas registrados",
-  "Proceso multiflujo demostrado en vivo con flujo completo",
-  "Operarios, máquinas y turnos con registro en tiempo real",
-  "Checkpoint de calidad probado con caso real",
-  "Reporte de productividad por línea con datos de prueba",
-  "Manual técnico entregado y código en repositorio"]},
+  "Manual técnico del módulo de producción",
+  "Código actualizado en repositorio",
+  "Documentación de flujos de producción y BOM configurados"]},
  {id:"H4",mes:"Octubre",nombre:"Financiero + KPIs + RAG",items:[
-  "Póliza contable generada automáticamente desde venta de prueba",
-  "CFDI 4.0 revisada por contador externo — CONDICIÓN OBLIGATORIA",
-  "Estados financieros verificados contra cálculo independiente",
-  "Dashboard KPIs funcional: OEE, ciclo, scrap, productividad",
-  "Consulta al RAG con respuesta correcta y verificable",
-  "Acceso SQL a PostgreSQL con ≥3 queries del cliente",
-  "Diccionario de datos SQL completo entregado",
-  "Exportación a Excel/PDF probada y funcional",
-  "Documentación fiscal, manual técnico y guía de KPIs entregados"]},
+  "Manual técnico del módulo financiero, KPIs y RAG",
+  "Documentación de cumplimiento fiscal (CFDI 4.0, XML SAT)",
+  "Diccionario de datos SQL con esquema completo y queries de ejemplo",
+  "Código actualizado en repositorio"]},
  {id:"H5",mes:"Nov–Dic",nombre:"Go-Live, E2E y Cierre",items:[
-  "Pruebas E2E ejecutadas con resultados documentados",
-  "Migración de datos históricos completa y validada",
-  "Cero errores CRÍTICOS o ALTOS al Go-Live",
-  "Capacitación a usuarios clave de ≥3 tiendas piloto",
-  "Documentación completa: manuales, videos y FAQs",
-  "Credenciales y accesos confirmados a nombre del cliente",
-  "Código fuente final — último commit fechado al Go-Live",
-  "Sistema en producción ≥1 tienda por 5 días hábiles sin incidentes",
-  "Soporte post Go-Live del Mes 6 con estabilización confirmada"]}
+  "Documentación técnica y de usuario completa del sistema",
+  "Manuales por módulo + guía RAG + diccionario SQL + manual KPIs",
+  "Videos de capacitación",
+  "Reporte de estabilización post Go-Live",
+  "Código fuente final en repositorio a nombre del cliente",
+  "Credenciales transferidas: AWS, M365, repositorios"]}
 ];
 
-const AUDITOR_BASE=`Eres el Auditor Técnico de Ayeka Solutions para el ERP de Uniformes Capri (stack: Microsoft 365 + AWS EC2/RDS PostgreSQL/Redis + POS + RAG pgvector, CFDI 4.0 México). Auditas entregas contra criterios de aceptación. Español, tono profesional y directo, sin suavizar problemas pero reconociendo lo bueno.
+const AUDITOR_BASE=`Eres el Auditor Técnico de Ayeka Solutions para el ERP de Uniformes Capri (stack: Microsoft 365 + AWS EC2/RDS PostgreSQL/Redis + POS + RAG pgvector, CFDI 4.0 México). Auditas la DOCUMENTACIÓN que el developer debe entregar por hito, verificando que cada documento exista, esté completo y cumpla los criterios de aceptación del plan de trabajo (que tú ya conoces por hito). Español, tono profesional y directo, sin suavizar problemas pero reconociendo lo bueno.
 
-MÉTODO: 1) Revisa cada archivo (código: calidad, seguridad, si implementa lo pedido; PDF/manual: completitud; imagen: qué evidencia aporta). 2) Cruza contra los criterios marcados: cuáles tienen evidencia COMPLETA, PARCIAL o SIN EVIDENCIA. No inventes evidencia. 3) Señala riesgos, bugs y faltantes que bloquearían la liberación del hito.
+MÉTODO: 1) Revisa cada archivo (código: calidad, seguridad, si implementa lo pedido; PDF/manual: completitud; imagen: qué evidencia aporta). 2) Cruza contra los documentos marcados: cuáles tienen evidencia COMPLETA, PARCIAL o SIN EVIDENCIA. No inventes evidencia. 3) Señala riesgos, bugs y faltantes que bloquearían la liberación del hito.
 
 FORMATO (primera línea obligatoria):
 VEREDICTO: APROBADO | APROBADO CON OBSERVACIONES | RECHAZADO
@@ -398,14 +379,14 @@ HITOS.forEach(h=>{
     document.querySelectorAll('#hsel .hbtn').forEach(x=>x.classList.remove('on'));
     b.classList.add('on');hitoSel=h;critSel=[];
     crit.className='crit on';
-    crit.innerHTML=`<div class="ct">Marca los criterios que cubre esta entrega — ${h.id}</div>`;
+    crit.innerHTML=`<div class="ct">Marca los documentos que incluye esta entrega — ${h.id}</div>`;
     h.items.forEach((txt)=>{
       const row=document.createElement('label');row.className='critchk';
       row.innerHTML=`<input type="checkbox"><span class="box">${CHKSVG}</span><span class="txt">${txt}</span>`;
       row.querySelector('input').onchange=e=>{
         row.classList.toggle('on',e.target.checked);
         if(e.target.checked)critSel.push(txt);else critSel=critSel.filter(c=>c!==txt);
-        document.getElementById('critCount').textContent=critSel.length?`${critSel.length} criterio(s) marcado(s)`:'Ninguno marcado — se evaluará contra todo el hito';
+        document.getElementById('critCount').textContent=critSel.length?`${critSel.length} documento(s) marcado(s)`:'Ninguno marcado — se evaluará contra todo el hito';
       };
       crit.appendChild(row);
     });
@@ -427,7 +408,7 @@ runBtn.onclick=async()=>{
   let manifest=`ENTREGA A AUDITAR — ${hitoSel.id} (${hitoSel.mes}): ${hitoSel.nombre}\n\nEL DEV DECLARA QUE ESTA ENTREGA CUBRE ESTOS CRITERIOS:\n${critList.map((c,i)=>(i+1)+'. '+c).join('\n')}\n\nARCHIVOS (${up1.files.length}): ${up1.files.map(f=>f.name).join(', ')}\n`;
   if(notes)manifest+=`\nNOTAS DEL DEV:\n${notes}\n`;
   up1.files.filter(f=>f.kind==='txt').forEach(f=>{manifest+=`\n===== ${f.name} =====\n${f.content}\n===== FIN =====\n`;});
-  manifest+='\nAudita SOLO contra los criterios declarados arriba. Sigue tu formato obligatorio.';
+  manifest+='\nAudita SOLO los documentos declarados arriba, juzgando cada uno contra los criterios de aceptación del hito. Sigue tu formato obligatorio.';
   content.push({type:'text',text:manifest});
   auditThread=[{role:'user',content}];
   try{
@@ -545,14 +526,14 @@ function renderSubHeredados(){
   subHeredados=[];
   if(!h){crit.className='crit';crit.innerHTML='';return;}
   crit.className='crit on';
-  crit.innerHTML=`<div class="ct">Marca los criterios del hito que este colaborador está trabajando — ${h.id}</div>`;
+  crit.innerHTML=`<div class="ct">Marca los documentos del hito que este colaborador está trabajando — ${h.id}</div>`;
   h.items.forEach((txt)=>{
     const row=document.createElement('label');row.className='critchk';
     row.innerHTML=`<input type="checkbox"><span class="box">${CHKSVG}</span><span class="txt">${txt}</span>`;
     row.querySelector('input').onchange=e=>{
       row.classList.toggle('on',e.target.checked);
       if(e.target.checked)subHeredados.push(txt);else subHeredados=subHeredados.filter(c=>c!==txt);
-      document.getElementById('subHeredCount').textContent=subHeredados.length?`${subHeredados.length} criterio(s) del hito marcado(s)`:'Ninguno marcado — se evaluará contra todo el hito';
+      document.getElementById('subHeredCount').textContent=subHeredados.length?`${subHeredados.length} documento(s) del hito marcado(s)`:'Ninguno marcado — se evaluará contra todo el hito';
     };
     crit.appendChild(row);
   });
@@ -591,7 +572,7 @@ document.getElementById('subRun').onclick=async()=>{
   manifest+=`\nARCHIVOS (${up3.files.length}): ${up3.files.map(f=>f.name).join(', ')}\n`;
   if(notes)manifest+=`\nNOTAS DEL DEV LÍDER:\n${notes}\n`;
   up3.files.filter(f=>f.kind==='txt').forEach(f=>{manifest+=`\n===== ${f.name} =====\n${f.content}\n===== FIN =====\n`;});
-  manifest+='\nAudita el trabajo de este colaborador contra los criterios del hito Y los subcriterios específicos. Sigue tu formato obligatorio.';
+  manifest+='\nAudita los documentos entregados por este colaborador contra los criterios del hito Y los subcriterios específicos. Sigue tu formato obligatorio.';
   content.push({type:'text',text:manifest});
   try{
     const res=await fetch(FN_URL,{method:'POST',headers:FN_HEADERS,body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:AUDITOR_BASE,messages:[{role:'user',content}]})});
