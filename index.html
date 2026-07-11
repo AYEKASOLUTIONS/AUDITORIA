@@ -315,6 +315,30 @@ const MAX_TOTAL=4*1024*1024;
 const TXT_EXT=['js','jsx','ts','tsx','py','sql','html','css','json','md','txt','csv','yml','yaml','xml','env','sh','cs','java','php','rb','go','vue'];
 const IMG_EXT={png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg',gif:'image/gif',webp:'image/webp'};
 function readB64(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=()=>rej();r.readAsDataURL(f);});}
+const BUCKET='entregas';
+function slugName(n){return n.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9._-]/g,'_');}
+async function subirArchivos(files,statusCb){
+  const out=[];
+  for(let i=0;i<files.length;i++){
+    const f=files[i];
+    if(!f.blob){out.push({name:f.name,url:null,tipo:f.ext,size:f.size});continue;}
+    const path=Date.now()+'_'+Math.random().toString(36).slice(2,9)+'_'+slugName(f.name);
+    statusCb&&statusCb(`Subiendo archivo ${i+1}/${files.length}…`);
+    try{
+      const r=await fetch(SUPABASE_URL+"/storage/v1/object/"+BUCKET+"/"+path,{
+        method:"POST",
+        headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY,"Content-Type":f.blob.type||"application/octet-stream"},
+        body:f.blob});
+      if(r.ok){
+        const url=SUPABASE_URL+"/storage/v1/object/public/"+BUCKET+"/"+path;
+        out.push({name:f.name,url,tipo:f.ext,size:f.size});
+      }else{
+        out.push({name:f.name,url:null,tipo:f.ext,size:f.size,err:r.status});
+      }
+    }catch(e){out.push({name:f.name,url:null,tipo:f.ext,size:f.size,err:'net'});}
+  }
+  return out;
+}
 function makeUploader(dropId,inputId,filesId,warnId){
   const drop=document.getElementById(dropId),input=document.getElementById(inputId),
         flist=document.getElementById(filesId),warn=document.getElementById(warnId);
@@ -323,13 +347,13 @@ function makeUploader(dropId,inputId,filesId,warnId){
   const sw=m=>{warn.textContent=m;warn.classList.add('on');setTimeout(()=>warn.classList.remove('on'),6000);};
   async function handle(list){
     for(const f of list){
-      const ext=f.name.split('.').pop().toLowerCase();
-      if(total()+f.size>MAX_TOTAL){sw(`"${f.name}" excede 4 MB total. Divide la entrega.`);continue;}
+      const ext=(f.name.split('.').pop()||'').toLowerCase();
+      if(f.size>50*1024*1024){sw(`Aviso: "${f.name}" pesa ${(f.size/1048576).toFixed(0)} MB. Se subirá igual, pero vigila la cuota de la nube.`);}
       try{
-        if(ext==='pdf')store.files.push({name:f.name,ext,kind:'pdf',size:f.size,content:await readB64(f)});
-        else if(IMG_EXT[ext])store.files.push({name:f.name,ext,kind:'img',size:f.size,content:await readB64(f),media:IMG_EXT[ext]});
-        else if(TXT_EXT.includes(ext)){let t=await f.text();if(t.length>80000)t=t.slice(0,80000)+"\n[...truncado...]";store.files.push({name:f.name,ext,kind:'txt',size:f.size,content:t});}
-        else{sw(`Formato ".${ext}" no soportado. Sube código, PDF o imágenes.`);continue;}
+        if(ext==='pdf')store.files.push({name:f.name,ext,kind:'pdf',size:f.size,content:await readB64(f),blob:f});
+        else if(IMG_EXT[ext])store.files.push({name:f.name,ext,kind:'img',size:f.size,content:await readB64(f),media:IMG_EXT[ext],blob:f});
+        else if(TXT_EXT.includes(ext)){let t=await f.text();if(t.length>80000)t=t.slice(0,80000)+"\n[...truncado...]";store.files.push({name:f.name,ext,kind:'txt',size:f.size,content:t,blob:f});}
+        else{store.files.push({name:f.name,ext,kind:'other',size:f.size,blob:f});}
       }catch(e){sw(`No se pudo leer "${f.name}".`);}
     }
     render();
@@ -450,8 +474,10 @@ async function followUp(){
 }
 async function saveAudit(out,notes,critList){
   const v=parseVerdict(out);
+  let archivosMeta=[];
+  if(SB_READY){archivosMeta=await subirArchivos(up1.files,m=>{const b=document.getElementById('run');if(b)b.textContent=m;});}
   const rec={fecha:new Date().toISOString(),hito:hitoSel.id+' · '+hitoSel.nombre,criterios:critList,
-    archivos:up1.files.map(f=>f.name),notas:notes,veredicto:v.t,cls:v.cls,detalle:out};
+    archivos:up1.files.map(f=>f.name),archivos_url:archivosMeta,notas:notes,veredicto:v.t,cls:v.cls,detalle:out};
   if(SB_READY){try{await fetch(SUPABASE_URL+"/rest/v1/auditorias",{method:"POST",headers:{...SB_HEADERS,"Prefer":"return-minimal"},body:JSON.stringify(rec)});}catch(e){}}
 }
 async function loadHistory(){
@@ -585,8 +611,10 @@ document.getElementById('subRun').onclick=async()=>{
     document.getElementById('subRbody').textContent=out.split('\n').slice(1).join('\n').trim();
     document.getElementById('subResult').classList.add('on');
     document.getElementById('subResult').scrollIntoView({behavior:'smooth',block:'start'});
+    let archivosMetaSub=[];
+    if(SB_READY){archivosMetaSub=await subirArchivos(up3.files,m=>{const b=document.getElementById('subRun');if(b)b.textContent=m;});}
     const rec={fecha:new Date().toISOString(),colaborador:quien,hito:hito.id+' · '+hito.nombre,
-      heredados:subHeredados,subcriterios:subCrits,archivos:up3.files.map(f=>f.name),notas:notes,veredicto:v.t,cls:v.cls,detalle:out};
+      heredados:subHeredados,subcriterios:subCrits,archivos:up3.files.map(f=>f.name),archivos_url:archivosMetaSub,notas:notes,veredicto:v.t,cls:v.cls,detalle:out};
     if(SB_READY){try{await fetch(SUPABASE_URL+"/rest/v1/subauditorias",{method:"POST",headers:{...SB_HEADERS,"Prefer":"return-minimal"},body:JSON.stringify(rec)});}catch(e){}}
     loadSubHist();
   }catch(e){
